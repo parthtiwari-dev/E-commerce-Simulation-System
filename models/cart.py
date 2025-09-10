@@ -18,7 +18,7 @@ Attributes:
 
 Methods:
     add_item(product, quantity): Add a product and quantity to the cart; increases quantity if already present
-    remove_item(product): Remove a product from the cart completely
+    remove_item(product, quantity): Remove a quantity of a product from the cart
     update_quantity(product, new_quantity): Adjust the quantity for a given product; removes if quantity is zero or less
     clear(): Remove all items and coupons from the cart
     view_items(): Return/display a summary of current items, quantities, and subtotal
@@ -36,7 +36,6 @@ from product import Product
 
 
 class Cart:
-
     def __init__(
         self,
         cart_id,
@@ -57,7 +56,6 @@ class Cart:
 
     def add_item(self, product, quantity):
         pid = product.product_id
-
         if pid in self.items:
             existing_product, existing_qty = self.items[pid]
             new_qty = existing_qty + quantity
@@ -68,7 +66,6 @@ class Cart:
         else:
             if quantity > 0:
                 self.items[pid] = (product, quantity)
-        # If quantity <= 0 and not already present, do nothing
         self.updated_at = datetime.now()
 
     def remove_item(self, product, quantity):
@@ -90,7 +87,7 @@ class Cart:
 
     def view_items(self):
         if not self.items:
-            print("cart is empty")
+            print("Cart is empty.")
             return
         print(f"{'Product':<20} {'Qty':<5} {'Unit Price':<12} {'Subtotal':<10}")
         print("-" * 55)
@@ -108,7 +105,6 @@ class Cart:
         """
         Applies coupon if not already applied.
         Assumes coupon is a valid object and validation is handled elsewhere.
-        You can make this more complex if you add coupon validation rules.
         """
         if coupon not in self.applied_coupons:
             self.applied_coupons.append(coupon)
@@ -144,15 +140,12 @@ class Cart:
     def calculate_total(self):
         subtotal = self.calculate_subtotal()
         total_discount = 0
-        # Naive coupon implementation: assumes each coupon has method get_discount(cart)
         for coupon in self.applied_coupons:
-            # You may define get_discount(cart) in your Coupon class to calculate discount based on cart contents
             if hasattr(coupon, "get_discount"):
                 total_discount += coupon.get_discount(self)
             elif hasattr(coupon, "discount_value"):
-                total_discount += coupon.discount_value  # fallback for simple coupon
+                total_discount += coupon.discount_value
             else:
-                # fallback if just a flat amount integer is used
                 total_discount += float(coupon)
         return max(0, subtotal - total_discount)
 

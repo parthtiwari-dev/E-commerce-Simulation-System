@@ -60,6 +60,6 @@ class Product:
 
     def __repr__(self):
         return (
-            f"Product(id={self.product_id}, name='{self.name}', price={self.price},"
+            f"Product(id={self.product_id}, name='{self.name}', price={self.price}, "
             f"stock={self.stock}, category='{self.category}')"
         )
