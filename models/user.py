@@ -31,6 +31,7 @@ Methods:
 from cart import Cart
 from order import Order
 from product import Product
+from datetime import datetime
 
 
 class User:
@@ -40,7 +41,10 @@ class User:
         self.email = email
         self.address = address
         self.phone = phone
-        self.current_cart = Cart(user_id=user_id)  # Active cart
+        self.current_cart = Cart(
+            cart_id=f"cart-{self.user_id}-{int(datetime.now().timestamp())}",
+            user_id=self.user_id,
+        )  # Active cart
         self.order_history = []  # List of Order objects
         self.payment_methods = []
 
@@ -58,7 +62,6 @@ class User:
     def place_order(
         self, order_id, shipping_address=None, payment_info=None, order_notes=None
     ):
-        # Convert cart into order
         order = Order.from_cart(
             order_id=order_id,
             cart=self.current_cart,
@@ -67,8 +70,14 @@ class User:
             order_notes=order_notes,
         )
         self.order_history.append(order)
-        # Reset to a new, empty cart for future shopping
-        self.current_cart = Cart(user_id=self.user_id)
+        # Create new empty cart with unique cart_id for the user
+        from datetime import datetime
+
+        self.current_cart = Cart(
+            cart_id=f"cart-{self.user_id}-{int(datetime.now().timestamp())}",
+            user_id=self.user_id,
+        )
+
         return order
 
     ## profile and order history
