@@ -32,7 +32,7 @@ Methods:
 """
 
 from datetime import datetime
-from product import Product
+from models.product import Product
 
 
 class Cart:

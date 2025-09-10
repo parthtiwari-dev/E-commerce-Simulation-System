@@ -28,9 +28,9 @@ Methods:
 
 """
 
-from cart import Cart
-from order import Order
-from product import Product
+from models.cart import Cart
+from models.order import Order
+from models.product import Product
 from datetime import datetime
 
 

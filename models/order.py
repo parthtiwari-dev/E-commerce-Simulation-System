@@ -30,8 +30,8 @@ Methods:
 """
 
 from datetime import datetime
-from cart import Cart
-from product import Product
+from .cart import Cart
+from .product import Product
 
 
 class Order:

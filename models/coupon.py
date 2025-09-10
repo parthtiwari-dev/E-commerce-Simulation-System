@@ -29,7 +29,7 @@ Methods:
 """
 
 from datetime import datetime
-from cart import Cart
+from .cart import Cart
 
 
 class Coupon:
