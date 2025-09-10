@@ -27,7 +27,7 @@ class Product:
         self.name = name
         self.price = price
         self.stock = stock
-        self.desciption = description
+        self.description = description
         self.category = category
 
     def deduct_stock(self , quantity:int) -> bool:
