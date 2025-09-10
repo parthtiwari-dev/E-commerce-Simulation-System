@@ -21,8 +21,11 @@ Methods:
     get_info(): Return product information for logs/display
 """
 
+
 class Product:
-    def __init__(self, product_id, name, price, stock , description = "", category = "General"):
+    def __init__(
+        self, product_id, name, price, stock, description="", category="General"
+    ):
         self.product_id = product_id
         self.name = name
         self.price = price
@@ -30,30 +33,33 @@ class Product:
         self.description = description
         self.category = category
 
-    def deduct_stock(self , quantity:int) -> bool:
+    def deduct_stock(self, quantity: int) -> bool:
         if quantity <= self.stock:
             self.stock -= quantity
             return True
         return False
 
-    def restock(self,quantity:int):
+    def restock(self, quantity: int):
         self.stock += quantity
 
-    def is_in_stock(self, quantity:int) -> bool:
-        return quantity<= self.stock
+    def is_in_stock(self, quantity: int) -> bool:
+        return quantity <= self.stock
 
-    def set_price(self,new_price: float):
+    def set_price(self, new_price: float):
         self.price = new_price
 
     def get_info(self):
-        return{
+        return {
             "id": self.product_id,
             "name": self.name,
             "price": self.price,
             "stock": self.stock,
             "category": self.category,
-            "description": self.description
+            "description": self.description,
         }
+
     def __repr__(self):
-        return (f"Product(id={self.product_id}, name='{self.name}', price={self.price},"
-                f"stock={self.stock}, category='{self.category}')")
+        return (
+            f"Product(id={self.product_id}, name='{self.name}', price={self.price},"
+            f"stock={self.stock}, category='{self.category}')"
+        )

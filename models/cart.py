@@ -198,4 +198,3 @@ class Cart:
 
     def __str__(self):
         return f"<Cart {self.cart_id} - {len(self.items)} items, Total: ₹{self.calculate_total():.2f}>"
-
