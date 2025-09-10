@@ -32,15 +32,10 @@ Methods:
 """
 
 from datetime import datetime
+from product import Product
+
 
 class Cart:
-    def __init__(self, cart_id, user_id, items, applied_coupons, created_at, updated_at):
-        self.cart_id = cart_id
-        self.user_id = user_id
-        self.items = items
-        self. applied_coupons=  applied_coupons
-        self.created_at = created_at
-        self.updated_at = updated_at
 
     def __init__(self, cart_id, user_id, items=None, applied_coupons=None, created_at=None, updated_at=None):
         self.cart_id = cart_id
@@ -50,22 +45,44 @@ class Cart:
         self.created_at = created_at if created_at is not None else datetime.now()
         self.updated_at = updated_at if updated_at is not None else self.created_at
 
-    def add_item(self):
-        pass
-    def remove_item(self):
-        pass
+    def add_item(self, product, quantity):
+        pid = product.product_id
+
+        if pid in self.items:
+            existing_product, existing_qty = self.items[pid]
+            new_qty = existing_qty + quantity
+            if new_qty <= 0:
+                del self.items[pid]
+            else:
+                self.items[pid] = (product, new_qty)
+        else:
+            if quantity > 0:
+                self.items[pid] = (product, quantity)
+        # If quantity <= 0 and not already present, do nothing
+        self.updated_at = datetime.now()
+
+    def remove_item(self, product, quantity):
+        self.add_item(product, -quantity)
+
     def update_quantity(self):
         pass
 
+    def clear(self):
+        pass
     def view_items(self):
         pass
-    def clear_cart(self):
+    def apply_coupon(self, coupon):
         pass
-    apply_couponremove_coupon
-    calculate_subtotal
-
-    calculate_total()
-    list_coupons
-     is_empty
-     get_cart_info
-     __str__ / __repr__:
+    def remove_coupon(self, coupon):
+        pass
+    def calculate_subtotal(self):
+        pass
+    def calculate_total():
+        pass    
+    def list_coupons():
+        pass
+    def is_empty():
+        pass
+    def get_cart_info():
+        pass
+    

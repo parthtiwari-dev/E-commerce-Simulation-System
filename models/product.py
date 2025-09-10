@@ -52,8 +52,8 @@ class Product:
             "price": self.price,
             "stock": self.stock,
             "category": self.category,
+            "description": self.description
         }
     def __repr__(self):
-        return f"<Product {self.name} (₹{self.price}, stock={self.stock})>"  
-
-
+        return (f"Product(id={self.product_id}, name='{self.name}', price={self.price},"
+                f"stock={self.stock}, category='{self.category}')")
