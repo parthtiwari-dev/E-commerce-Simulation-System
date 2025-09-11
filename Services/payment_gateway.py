@@ -27,18 +27,13 @@ Notes:
 from models.user import User
 from models.order import Order
 from models.cart import Cart
-# from utils.logger import logger                # For logging payment events (use a stub if not made yet)
-# from utils.exceptions import PaymentFailedError # Create a stub if not defined yet
+from Utils.logger import logger                # For logging payment events (use a stub if not made yet)
 from typing import Any, Dict                   # For type hints
 import random                                 # To simulate payment outcome
+from Utils.exceptions import PaymentFailedError
+   
 
-# Stub logger
-def logger(message):
-    print(f"[LOG] {message}")
 
-# Stub PaymentFailedError exception
-class PaymentFailedError(Exception):
-    pass
 
 class PaymentProcessor:
     def __init__(self, success_rate=0.9):

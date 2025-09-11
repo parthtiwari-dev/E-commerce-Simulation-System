@@ -34,14 +34,7 @@ from models.order import Order
 from Services.inventory import Inventory, OutOfStockError
 from Services.payment_gateway import PaymentProcessor, PaymentFailedError
 from typing import Dict, Any, List
-
-# Stub logger (replace with your real logger later)
-class LoggerStub:
-    @staticmethod
-    def info(msg):
-        print(f"[LOG] {msg}")
-
-logger = LoggerStub()
+from Utils.logger import logger
 
 class OrderServices:
     def __init__(self, inventory: Inventory, payment_gateway: PaymentProcessor, logger=logger):

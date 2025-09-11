@@ -27,25 +27,13 @@ Example Methods:
 
 # services/inventory.py
 
-# services/inventory.py
-
 from models.product import Product
 from typing import Dict, List, Optional
+from Utils.exceptions import OutOfStockError
+from Utils.logger import logger
 
 
-# Stub logger for now if you do not have an actual logger utility
-class LoggerStub:
-    @staticmethod
-    def info(msg):
-        print(f"[LOG] {msg}")
 
-
-logger = LoggerStub()
-
-
-# Stub exception if custom one doesn't exist yet
-class OutOfStockError(Exception):
-    pass
 
 
 class Inventory:
