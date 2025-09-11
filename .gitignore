@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+ecommerce_simulation.log
+.DS_Store
+.idea/
+.vscode/
+*.log
