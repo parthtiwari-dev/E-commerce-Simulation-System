@@ -3,7 +3,7 @@ Order Services Module
 
 Purpose:
     Orchestrates end-to-end order processing in the e-commerce system.
-    Handles cart validation, inventory reservation, payment processing, 
+    Handles cart validation, inventory reservation, payment processing,
     order creation, cancellation, refund, and user order queries.
     Centralizes business logic that spans multiple models and services.
 
@@ -36,44 +36,49 @@ from Services.payment_gateway import PaymentProcessor, PaymentFailedError
 from typing import Dict, Any, List
 from Utils.logger import logger
 
+
 class OrderServices:
-    def __init__(self, inventory: Inventory, payment_gateway: PaymentProcessor, logger=logger):
+    def __init__(
+        self, inventory: Inventory, payment_gateway: PaymentProcessor, logger=logger
+    ):
         self.inventory = inventory
         self.payment_gateway = payment_gateway
         self.logger = logger
+        self.orders = []  # track all orders globally
 
-    def submit_order(self, user: User, cart: Cart, payment_info: Dict[str, Any]) -> Order | None:
-        """
-        Full checkout orchestration:
-        1. Reserve inventory for all cart items
-        2. Process payment
-        3. Create and store Order
-        4. Rollback stock if payment fails
-        """
+    def submit_order(
+        self, user: User, cart: Cart, payment_info: Dict[str, Any]
+    ) -> Order | None:
         if not cart.items:
             self.logger.info("Cart is empty, cannot submit order.")
             return None
 
         reserved = []
         try:
-            # Step 1: Reserve stock
+            # Reserve stock
             for pid, (product, qty) in cart.items.items():
                 self.inventory.reserve_stock(pid, qty)
                 reserved.append((pid, qty))
 
-            # Step 2: Process payment
-            total_amount = cart.calculate_subtotal()
-            order_preview = Order.from_cart("preview", cart)  # for payment purposes
-            payment_ref = self.payment_gateway.process_payment(user, order_preview, payment_info)
+            # Process payment
+            order_preview = Order.from_cart("preview", cart)
+            payment_ref = self.payment_gateway.process_payment(
+                user, order_preview, payment_info
+            )
 
-            # Step 3: Create actual order
-            order_id = f"ORD-{user.user_id}-{len(user.order_history)+1}"
+            # Create order
+            order_id = f"ORD-{user.user_id}-{len(self.orders)+1}"
             order = Order.from_cart(order_id, cart)
             order.payment_ref = payment_ref
             order.status = "Paid"
+
+            # Save order
+            self.orders.append(order)
             user.order_history.append(order)
 
-            self.logger.info(f"Order {order_id} placed successfully for User {user.user_id}")
+            self.logger.info(
+                f"Order {order_id} placed successfully for User {user.user_id}"
+            )
             return order
 
         except (OutOfStockError, PaymentFailedError) as e:
@@ -83,24 +88,24 @@ class OrderServices:
             self.logger.info(f"Order failed for User {user.user_id}: {e}")
             return None
 
-    def cancel_order(self, user: User, order_id: str) -> bool:
-        """
-        Cancel an order and release inventory.
-        Optionally, trigger refund via PaymentProcessor.
-        """
-        order = next((o for o in user.order_history if o.order_id == order_id), None)
+    def cancel_order(self, user_id: int, order_id: str) -> bool:
+        # Find the order in self.orders
+        order = next(
+            (o for o in self.orders if o.user_id == user_id and o.order_id == order_id),
+            None,
+        )
         if not order:
-            self.logger.info(f"Order {order_id} not found for User {user.user_id}")
+            self.logger.info(f"Order {order_id} not found for User {user_id}")
             return False
         if order.status == "Cancelled":
             self.logger.info(f"Order {order_id} already cancelled")
             return False
 
-        order.update_status("Cancelled")
+        order.status = "Cancelled"
         for pid, (product, qty) in order.items.items():
             self.inventory.release_stock(pid, qty)
 
-        # Optionally: refund via PaymentProcessor
+        # Refund if payment exists
         if hasattr(order, "payment_ref"):
             try:
                 self.payment_gateway.refund_payment(order.payment_ref, order.total)
@@ -109,7 +114,3 @@ class OrderServices:
 
         self.logger.info(f"Order {order_id} cancelled successfully")
         return True
-
-    def get_orders_for_user(self, user: User) -> List[Dict]:
-        """Return summaries of all orders for a user."""
-        return [order.get_order_info() for order in user.order_history]

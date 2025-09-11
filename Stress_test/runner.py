@@ -96,7 +96,7 @@ def run_stress_test(
     # Optionally, test cancellation rate
     cancels = 0
     for order in random.sample(placed_orders, k=min(len(placed_orders), 20)):
-        result = order_services.cancel_order(order.user, order.order_id)
+        result = order_services.cancel_order(order.user_id, order.order_id)
         if result:
             cancels += 1
             info(f"Order {order.order_id} cancelled.")
