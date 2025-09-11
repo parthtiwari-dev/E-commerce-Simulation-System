@@ -60,17 +60,12 @@ E-commerce-Simulation-System/
    cd E-commerce-Simulation-System
    ```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the simulation**
+2. **Run the simulation**
    ```bash
    python main.py
    ```
 
-4. **Execute stress tests**
+3. **Execute stress tests**
    ```bash
    python -m pytest Stress_test/ -v
    ```
