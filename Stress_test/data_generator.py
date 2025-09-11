@@ -95,21 +95,3 @@ def generate_coupons(n=3):
     return coupons
 
 
-# utils/data_generator.py
-
-if __name__ == "__main__":
-    products = generate_products(5)
-    users = generate_users(3)
-    coupons = generate_coupons(2)
-
-    print("\nGenerated Products:")
-    for p in products:
-        print(p.get_info())
-
-    print("\nGenerated Users:")
-    for u in users:
-        print(u.get_profile())
-
-    print("\nGenerated Coupons:")
-    for c in coupons:
-        print(c.get_info())
