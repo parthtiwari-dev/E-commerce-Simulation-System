@@ -100,5 +100,16 @@ class Coupon:
     def deactivate(self):
         self.is_active = False
 
+    def get_info(self):
+        return {
+            "code": self.code,
+            "description": self.description,
+            "discount_type": self.discount_type,
+            "discount_value": self.discount_value,
+            "min_order_value": self.min_order_value,
+            "is_active": self.is_active,
+            "usage_count": self.usage_count,
+        }
+
     def __str__(self):
         return f"<Coupon {self.code}: {self.description} | {self.discount_type} {self.discount_value}>"

@@ -18,7 +18,8 @@ from Services.payment_gateway import PaymentProcessor
 from Services.order_services import OrderServices
 from Services.discount import DiscountManager, DiscountRule
 from Services.transaction import TransactionContext
-
+from Utils.logger import logger
+from Utils.exceptions import (OutOfStockError, PaymentFailedError)
 import random
 
 def run_all_tests():
