@@ -1,5 +1,8 @@
 # E-Commerce Simulation System
 
+![Built with Python](https://img.shields.io/badge/Built%20with-Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Portfolio Project](https://img.shields.io/badge/Portfolio-Project-brightgreen?style=for-the-badge&logo=github&logoColor=white)
+
 > A comprehensive Object-Oriented Python backend e-commerce simulator showcasing enterprise-level system design patterns, performance optimization, and real-world business logic implementation.
 
 ## 🎯 Overview
@@ -101,11 +104,11 @@ E-commerce-Simulation-System/
 ## 💼 Professional Showcase
 
 **Skills Demonstrated:**
-✅ Enterprise-grade system architecture
-✅ Clean, maintainable code following Python best practices
-✅ Performance optimization through caching and efficient algorithms
-✅ Comprehensive testing including stress and integration tests
-✅ Real-world business logic implementation
+✅ Enterprise-grade system architecture  
+✅ Clean, maintainable code following Python best practices  
+✅ Performance optimization through caching and efficient algorithms  
+✅ Comprehensive testing including stress and integration tests  
+✅ Real-world business logic implementation  
 ✅ System design patterns used in production environments
 
 **Ideal for:**
@@ -119,8 +122,5 @@ E-commerce-Simulation-System/
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
----
-
-**Built with ❤️ by [Parth Tiwari](https://github.com/parthtiwari-dev)**
-
-*Demonstrating production-ready Python development for AI engineering and backend development roles*
+**Built with ❤️ by [Parth Tiwari](https://github.com/parthtiwari-dev)**  
+Demonstrating production-ready Python development for AI engineering and backend development roles
